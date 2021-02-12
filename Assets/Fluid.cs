@@ -9,12 +9,16 @@ public class Fluid : MonoBehaviour {
     private Vector3[] vertices;
     private int[] triangles;
     private Vector2[] uv;
+    private Vector4[] tangents;
     private Mesh mesh;
 
     private void Awake() {
         vertices = new Vector3[xSize * zSize];
         triangles = new int[xSize * zSize * 6];
         uv = new Vector2[xSize * zSize];
+        tangents = new Vector4[xSize * zSize];
+        Vector4 tangent = new Vector4(0f, 1f, 0f, -1f);
+
         GetComponent<MeshFilter>().mesh = mesh = new Mesh();
         mesh.name = "Fluid";
 
@@ -22,6 +26,7 @@ public class Fluid : MonoBehaviour {
             for (int x = 0; x < xSize; ++x, ++i) {
                 vertices[i] = new Vector3(x, 0, z);
                 uv[i] = new Vector2((float)x / xSize, (float)z / zSize);
+                tangents[i] = tangent;
             }
         }
 
@@ -37,6 +42,7 @@ public class Fluid : MonoBehaviour {
         mesh.vertices = vertices;        
         mesh.triangles = triangles;
         mesh.uv = uv;
+        mesh.tangents = tangents;
         mesh.RecalculateNormals();
     }
 
