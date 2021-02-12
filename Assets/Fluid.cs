@@ -8,22 +8,22 @@ public class Fluid : MonoBehaviour {
 
     private Vector3[] vertices;
     private int[] triangles;
+    private Vector2[] uv;
     private Mesh mesh;
 
     private void Awake() {
         vertices = new Vector3[xSize * zSize];
         triangles = new int[xSize * zSize * 6];
+        uv = new Vector2[xSize * zSize];
         GetComponent<MeshFilter>().mesh = mesh = new Mesh();
         mesh.name = "Fluid";
 
         for (int i = 0, z = 0; z < zSize; ++z) {
             for (int x = 0; x < xSize; ++x, ++i) {
                 vertices[i] = new Vector3(x, 0, z);
+                uv[i] = new Vector2((float)x / xSize, (float)z / zSize);
             }
         }
-
-        mesh.vertices = vertices;
-
 
         for (int z = 0, ti = 0, vi = 0; z < zSize - 1; ++z, ++vi) {
             for (int x = 0; x < xSize - 1; ++vi, ti += 6, ++x) {
@@ -33,8 +33,10 @@ public class Fluid : MonoBehaviour {
                 triangles[ti + 5] = vi + xSize + 1;
             }
         }
-        
+
+        mesh.vertices = vertices;        
         mesh.triangles = triangles;
+        mesh.uv = uv;
         mesh.RecalculateNormals();
     }
 
