@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class Fluid : MonoBehaviour {
     public int xSize, zSize;
+    public float scale = 1;
 
     private Vector3[] vertices;
     private int[] triangles;
@@ -24,7 +25,7 @@ public class Fluid : MonoBehaviour {
 
         for (int i = 0, z = 0; z < zSize; ++z) {
             for (int x = 0; x < xSize; ++x, ++i) {
-                vertices[i] = new Vector3(x, 0, z);
+                vertices[i] = new Vector3(x * scale, 0, z * scale);
                 uv[i] = new Vector2((float)x / xSize, (float)z / zSize);
                 tangents[i] = tangent;
             }
